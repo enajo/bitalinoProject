@@ -1,0 +1,6 @@
+__main__
+qta-manage
+qta_statics
+qtaf_settings
+testbase
+tuia

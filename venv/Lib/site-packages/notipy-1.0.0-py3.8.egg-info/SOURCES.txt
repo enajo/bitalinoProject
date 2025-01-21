@@ -1,0 +1,11 @@
+setup.cfg
+setup.py
+notipy/__init__.py
+notipy/__main__.py
+notipy/cli.py
+notipy.egg-info/PKG-INFO
+notipy.egg-info/SOURCES.txt
+notipy.egg-info/dependency_links.txt
+notipy.egg-info/entry_points.txt
+notipy.egg-info/requires.txt
+notipy.egg-info/top_level.txt

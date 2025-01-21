@@ -1,0 +1,3 @@
+[console_scripts]
+whratio = whratio.__main__:main
+

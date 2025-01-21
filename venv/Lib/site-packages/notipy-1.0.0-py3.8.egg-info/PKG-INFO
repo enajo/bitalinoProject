@@ -1,0 +1,17 @@
+Metadata-Version: 1.1
+Name: notipy
+Version: 1.0.0
+Summary: A humble try to get a cross-platform notification mechanism
+Home-page: https://github.com/aaronfc/notipy
+Author: Aaron Fc
+Author-email: yo@aaron.com.es
+License: MIT
+Download-URL: https://github.com/aaronfc/notipy/tarbal/1.0.0
+Description: A humble try to get a cross-platform notification mechanism
+Keywords: notifications python cross-platform
+Platform: UNKNOWN
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Software Development :: Build Tools
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 2.7

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EMG Analysis Results</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 60%;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            text-align: center;
+            padding: 8px;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        a {
+            text-decoration: none;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>EMG Analysis Results</h1>
+
+    <!-- Chart Section -->
+    <h2>Chart</h2>
+    <img src="data:image/png;base64,{{ base64_chart }}" alt="EMG Chart" style="max-width:100%; height:auto; border:1px solid #ccc;">
+
+    <!-- Metrics Summary Section -->
+    <h2>Metrics Summary</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Metric</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Peak Amplitude (mV)</td>
+                <td>{{ metrics["Peak Amplitude"]|round(2) }}</td>
+            </tr>
+            <tr>
+                <td>RMS (mV)</td>
+                <td>{{ metrics["RMS"]|round(2) }}</td>
+            </tr>
+            <tr>
+                <td>Median Frequency (Hz)</td>
+                <td>{{ metrics["Median Frequency"]|round(2) }}</td>
+            </tr>
+            <tr>
+                <td>Mean Power Frequency (Hz)</td>
+                <td>{{ metrics["Mean Power Frequency"]|round(2) }}</td>
+            </tr>
+            <tr>
+                <td>Resting Activation (mV)</td>
+                <td>{{ metrics["Resting Activation"]|round(2) }}</td>
+            </tr>
+            <tr>
+                <td>Signal Variability (mV)</td>
+                <td>{{ metrics["Signal Variability"]|round(2) }}</td>
+            </tr>
+            <tr>
+                <td>Recovery Percentage</td>
+                <td>{{ metrics["Recovery Percentage"]|round(1) }}%</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Actionable Feedback Section -->
+    <h2>Actionable Feedback</h2>
+    <p>{{ metrics["Feedback"] }}</p>
+
+    <!-- Buttons Section -->
+    <button>
+        <a href="{{ url_for('download_pdf') }}" style="color: white;">Download PDF Report</a>
+    </button>
+    <button style="background-color: grey;">
+        <a href="{{ url_for('user_dashboard') }}" style="color: white;">Back to Dashboard</a>
+    </button>
+</body>
+</html>

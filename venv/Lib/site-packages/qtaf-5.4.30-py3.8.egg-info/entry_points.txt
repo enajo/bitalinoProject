@@ -1,0 +1,3 @@
+[console_scripts]
+qta-manage = testbase.management:qta_manage_main
+

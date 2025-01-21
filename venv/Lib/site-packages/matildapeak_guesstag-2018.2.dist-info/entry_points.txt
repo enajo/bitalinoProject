@@ -1,0 +1,3 @@
+[console_scripts]
+guesstag = guesstag.guesstag:main
+

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bitalino Real-Time Feedback System</title>
+    <link rel="stylesheet" href="static/css/styles.css">
+    <!-- Load jQuery (Online Version) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Load Socket.IO Client (Online Version) -->
+    <script src="https://cdn.jsdelivr.net/npm/socket.io-client@4.0.1/dist/socket.io.min.js"></script>
+    <!-- Load Chart.js (Online Version) -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Bitalino Real-Time Feedback System</h1>
+	<button id="connect-btn">Connect to BITalino</button>
+        <button id="start-acquisition">Start Acquisition</button>
+        <button id="stop-acquisition">Stop Acquisition</button>
+        
+        <div id="graph-container">
+            <canvas id="emg-chart"></canvas>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            // Initialize Socket.IO connection
+            var socket = io.connect('http://localhost:5000'); // Connect to Flask server
+
+            // Initialize Chart.js for EMG data visualization
+            var ctx = document.getElementById('emg-chart').getContext('2d');
+            var emgChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: [], // X-axis (time)
+                    datasets: [{
+                        label: 'EMG Signal',
+                        data: [], // Y-axis (EMG values)
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 2,
+                        fill: false
+                    }]
+                },
+                options: {
+                    scales: {
+                        x: {
+                            type: 'linear',
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+
+            // Start Acquisition Button Handler
+            $('#start-acquisition').click(function() {
+                console.log('Starting acquisition...');
+                socket.emit('start_acquisition');
+            });
+
+            // Stop Acquisition Button Handler
+            $('#stop-acquisition').click(function() {
+                console.log('Stopping acquisition...');
+                socket.emit('stop_acquisition');
+            });
+
+            // Listen for EMG data from the server (via Socket.IO)
+            socket.on('emg_data', function(data) {
+                // Update chart with new EMG data
+                var time = data.time;
+                var emgValue = data.emg_value;
+
+                // Add data to chart
+                emgChart.data.labels.push(time);
+                emgChart.data.datasets[0].data.push(emgValue);
+                emgChart.update(); // Redraw chart with new data
+            });
+        });
+    </script>
+</body>
+</html>

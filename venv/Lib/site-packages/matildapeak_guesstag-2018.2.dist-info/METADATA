@@ -1,0 +1,66 @@
+Metadata-Version: 2.1
+Name: matildapeak-guesstag
+Version: 2018.2
+Summary: Simple configuration tool
+Home-page: https://gitlab.com/matilda.peak/guesstag
+Author: Alan Christie
+Author-email: alan.christie@matildapeak.com
+License: MIT
+Keywords: configuration
+Platform: any
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Environment :: Console
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Topic :: System :: Installation/Setup
+Classifier: Operating System :: POSIX :: Linux
+Requires-Dist: PyYAML (==3.13)
+
+A Python-based GitLab branch tag-guessing Tool
+==============================================
+
+.. image:: https://gitlab.com/matilda.peak/guesstag/badges/master/pipeline.svg
+   :target: https://gitlab.com/matilda.peak/guesstag
+   :alt: Pipeline Status (guesstag)
+
+.. image:: https://gitlab.com/matilda.peak/guesstag/badges/master/coverage.svg
+   :target: https://gitlab.com/matilda.peak/guesstag
+   :alt: Coverage Report (guesstag)
+
+.. image:: https://badge.fury.io/py/matildapeak-guesstag.svg
+   :target: https://badge.fury.io/py/matildapeak-guesstag
+
+A simple utility to *guess* the next GitLab CI tag value that can
+be used along with `pyconf`_.
+
+.. _pyconf: https://gitlab.com/matilda.peak/pyconf
+
+This utility gets the nearest tag and, if found to be sensible,
+prints what it believes would be the next logical version.
+
+If the environment variable ``CI_COMMIT_TAG`` is defined (which is normal
+for tagged builds) this utility simply returns (prints) the defined value -
+i.e. on tagged builds this utility prints the tag.
+
+If a tag cannot be found the utility will return the value
+defined in the ``pyconf.yml`` file or, if it cannot be found, ``0.0.0``.
+
+Installation
+------------
+
+Guesstag is published on `PyPI`_ and can be installed from
+there::
+
+    pip install matildapeak-guesstag
+
+.. _PyPI: https://pypi.org/project/matildapeak-guesstag
+
+Get in touch
+------------
+
+- Report bugs, suggest features or view the source code `on GitLab`_.
+
+.. _on GitLab: https://gitlab.com/matilda.peak/guesstag
+
+

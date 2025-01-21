@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live EMG Data</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div>
+        <h1>Live EMG Data from BITalino</h1>
+
+        <div>
+            <button id="connectButton">Connect to Sensor</button>
+            <button id="startButton" disabled>Start Acquisition</button>
+            <button id="stopButton" disabled>Stop Acquisition</button>
+        </div>
+
+        <div id="sensorStatus"></div>
+
+        <canvas id="liveChart" width="400" height="200"></canvas>
+    </div>
+
+    <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
+    <script>
+        const socket = io();
+
+        const connectButton = document.getElementById("connectButton");
+        const startButton = document.getElementById("startButton");
+        const stopButton = document.getElementById("stopButton");
+        const sensorStatus = document.getElementById("sensorStatus");
+        
+        // Chart.js initialization
+        const ctx = document.getElementById('liveChart').getContext('2d');
+        const chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [],  // Time axis
+                datasets: [{
+                    label: 'EMG Signal (mV)',
+                    data: [],  // Data points for the EMG signal
+                    borderColor: 'blue',
+                    fill: false
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        type: 'linear',
+                        position: 'bottom'
+                    },
+                    y: {
+                        min: 0,
+                        max: 1023
+                    }
+                }
+            }
+        });
+
+        let mockDataInterval;  // Variable to store the interval ID for mock data generation
+
+        connectButton.addEventListener('click', function() {
+            socket.emit('connect_sensor');  // Simulating sensor connection
+        });
+
+        startButton.addEventListener('click', function() {
+            socket.emit('start_acquisition');
+            startButton.disabled = true;
+            stopButton.disabled = false;
+
+            // Simulating real-time data acquisition with mock data
+            mockDataInterval = setInterval(function() {
+                // Generate mock data (random value between 0 and 1023 to mimic EMG signal)
+                const mockData = {
+                    value: Math.floor(Math.random() * 1024)
+                };
+
+                // Update the chart with the mock data
+                const time = chart.data.labels.length;
+                chart.data.labels.push(time);  // Increment the time (x-axis)
+                chart.data.datasets[0].data.push(mockData.value);  // Add mock data to the chart
+                chart.update();  // Update the chart in real-time
+            }, 100);  // Update the chart every 100ms
+        });
+
+        stopButton.addEventListener('click', function() {
+            clearInterval(mockDataInterval);  // Stop the mock data simulation
+            startButton.disabled = false;
+            stopButton.disabled = true;
+        });
+
+        socket.on('sensor_status', function(data) {
+            sensorStatus.innerText = data.status;
+            if (data.status === 'Connected to BITalino sensor') {
+                startButton.disabled = false;
+            }
+        });
+
+        socket.on('live_data', function(data) {
+            // This part would work with real data from the BITalino sensor
+            // const time = chart.data.labels.length;
+            // chart.data.labels.push(time);
+            // chart.data.datasets[0].data.push(data.value);
+            // chart.update();
+        });
+    </script>
+</body>
+</html>
